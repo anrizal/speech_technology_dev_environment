@@ -1,0 +1,2 @@
+# speech_technology_dev_environment
+Development Environment for Speech Technology Project
