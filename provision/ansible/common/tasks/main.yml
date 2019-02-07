@@ -1,0 +1,35 @@
+## file: /roles/common/tasks/main.yml
+## desc: tasks file can include smaller files if warranted
+---
+# In geerlingguy/ubuntu1604 the following packages are pre-installed build-essential, git, nano, vim, curl, wget
+# so we don´t need to install them again.
+- name: install packages
+  apt:
+    pkg: [
+          build-essential,
+          git,
+          tree,
+          nano,
+          vim,
+          htop,
+          curl,
+          wget,
+          rsync,
+          unzip,
+          unrar,
+          openjdk-8-jdk
+    ]
+    state: latest
+  become: yes
+  become_method: sudo
+  tags:
+    - common
+
+- name: set timezone to Europe/Stockholm
+  timezone:
+    name: Europe/Stockholm
+
+- name: set locale
+  become: yes
+  become_method: sudo
+  command: update-locale LANG=en_US.UTF-8

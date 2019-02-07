@@ -1,0 +1,3 @@
+---
+tensorflow_source_path: "/opt/src/tensorflow"
+tensorflow_source_branch: "r1.95"

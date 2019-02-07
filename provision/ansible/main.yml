@@ -1,0 +1,22 @@
+## file: main.yml
+## desc: the start file for ansible provisioning
+---
+- hosts: all
+  become: yes
+
+  pre_tasks:
+   - name: Verify Ansible meets this VM's version requirements.
+     assert:
+       that: "ansible_version.full is version_compare('2.1', '>=')"
+       msg: >
+         "You must update Ansible to at least 2.1 to use this awesome vagrant box!"
+
+  tasks:
+  - name: test connection
+    ping:
+    remote_user: vagrant
+
+  roles:
+      - common
+      - tensorflow-sources
+      - build-tensorflow

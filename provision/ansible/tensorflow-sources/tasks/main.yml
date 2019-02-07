@@ -1,0 +1,7 @@
+---
+
+- name: checkout tensorflow
+  git:
+    dest: "{{ tensorflow_source_path }}"
+    repo: "https://github.com/tensorflow/tensorflow.git"
+    version: "{{ tensorflow_source_branch }}"

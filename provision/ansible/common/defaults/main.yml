@@ -1,0 +1,3 @@
+## file: /roles/common/defaults/main.yml
+## desc: default lower priority variables for this role
+---
