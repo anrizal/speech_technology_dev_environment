@@ -18,5 +18,4 @@
 
   roles:
       - common
-      - tensorflow-sources
-      - build-tensorflow
+      - install-tensorflow

@@ -16,8 +16,7 @@
           wget,
           rsync,
           unzip,
-          unrar,
-          openjdk-8-jdk
+          unrar
     ]
     state: latest
   become: yes

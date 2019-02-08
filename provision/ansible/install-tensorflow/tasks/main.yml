@@ -1,0 +1,21 @@
+---
+
+  - name: install python pip
+    become: true
+    apt: 
+      pkg: [
+            python3-pip,
+            python3-dev
+          ]
+      state: latest
+
+  - name: install tensorflow and common libraries using pip
+    pip:
+      name: [ 
+        tensorflow,
+        pandas
+        ]
+      state: latest
+      virtualenv: "{{ tensorflow_virtualenv_target_path }}"
+      virtualenv_python: python3
+
