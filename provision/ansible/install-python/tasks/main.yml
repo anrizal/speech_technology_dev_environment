@@ -1,0 +1,47 @@
+# Installs the latest Python 3 version in Ubuntu using the deadsnakes ppa
+
+- name: Install prerequisites
+  apt:
+    pkg: python-software-properties
+    state: present
+  become: true
+
+- name: Add deadsnakes repo
+  apt_repository: repo="ppa:deadsnakes/ppa"
+  become: true
+
+- name: Install python
+  apt:
+    pkg: "python{{ python_version }}-dev"
+    state: present
+  become: true
+
+- name: Download get-pip.py
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /tmp/get-pip.py
+  become: true
+
+- name: Install pip
+  command: python3.6 /tmp/get-pip.py
+  become: true
+
+- name: use python 3.6
+  file:
+    src: /usr/bin/python3.6
+    dest: /usr/local/bin/python3
+    state: link
+  become: true
+
+- name: Create aliases python = python3.6
+  lineinfile:
+    dest: /home/vagrant/.bash_aliases
+    create: yes
+    mode: 0644
+    line: 'alias python=python3'
+    regexp: "^alias python="
+  become: true
+
+- name: source bash_aliases
+  shell: . /home/vagrant/.bash_aliases
+  become: true

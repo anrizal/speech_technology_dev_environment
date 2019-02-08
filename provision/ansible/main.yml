@@ -18,4 +18,5 @@
 
   roles:
       - common
+      - install-python
       - install-tensorflow

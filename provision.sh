@@ -24,3 +24,4 @@ fi
 #============================= Running ansible playbook ===================================
 
 ansible-playbook --inventory="localhost," -c local  /provision/ansible/main.yml
+
