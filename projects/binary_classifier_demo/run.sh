@@ -37,8 +37,5 @@ for f in `ls -1r | head -3`; do
 done
 
 echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-echo Testing
+echo FINISHED!
 echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-cd $DIRECTORY/predictor
-python3 parse_folder.py $DIRECTORY/../../data/sounds/cries

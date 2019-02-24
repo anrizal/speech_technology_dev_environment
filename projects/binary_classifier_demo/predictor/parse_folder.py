@@ -15,6 +15,7 @@
 import argparse
 import os
 import csv
+from shutil import copyfile, move
 import numpy as np
 from scipy.io import wavfile
 from audio.processor import WavProcessor, format_predictions
@@ -32,24 +33,53 @@ def process_file(wav_file):
     print(format_predictions(predictions))
     return predictions
 
+def write_results(directory):
+    original_csv_path = os.path.join(directory, 'predictions.csv')
+    new_csv_path = os.path.join(directory, 'predictions_temp.csv')
+
+    if not os.path.exists(original_csv_path):
+        with open(original_csv_path, 'w'): pass
+    copyfile(original_csv_path, new_csv_path)
+    with open(original_csv_path, 'r') as old_csv:
+        with open(new_csv_path, 'a') as result_csv:
+            writer = csv.writer(result_csv)
+            reader = csv.DictReader(old_csv)
+            if not old_csv.read():
+                writer.writerow(['file_name', 'cry', 'others', 'prediction'])
+            for filename in os.listdir(directory):
+                if not filename.endswith(".wav"):
+                    continue
+                existed = False
+                old_csv.seek(0)
+                for exising_row in reader:
+                    if exising_row['file_name'] == filename:
+                        existed = True
+                if not existed:
+                    print(filename, end=' ')
+                    try:
+                        predictions = process_file(os.path.join(directory, filename))
+                    except:
+                        print('CORRUPTED!')
+                        predictions = [('Corrupted', 1)]
+
+                    row = format_csv_row(filename, predictions)
+                    writer.writerow(row)
+    move(new_csv_path, original_csv_path)
+
+def format_csv_row(filename, predictions):
+    row = [filename, 0, 0, 'NEGITIVE']
+    for p in predictions:
+        if p[0] == 'Cry':
+            row[1] = p[1]
+        elif p[0] == 'Others':
+            row[2] = p[1]
+        elif p[0] == 'Corrupted':
+            row[3] = p[0]
+    if row[1] > row[2] and row[3] != 'Corrupted':
+        row[3] = 'POSITIVE'
+    return row
 
 if __name__ == '__main__':
     args = parser.parse_args()
     directory = vars(args)['folder']
-    with open(os.path.join(directory, 'predictions.csv'), 'w') as csvfile:
-        spamwriter = csv.writer(csvfile, delimiter=' ',
-                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        spamwriter.writerow(['file_name', 'cry', 'others', 'prediction'])
-        for filename in os.listdir(directory):
-            if filename.endswith(".wav"): 
-                predictions = process_file(os.path.join(directory, filename))
-                row = [filename, 0, 0, 'NEGITIVE']
-                for p in predictions:
-                    if p[0] == 'Cry':
-                        row[1] = p[1]
-                    else:
-                        row[2] = p[1]
-                if row[1] > row[2]:
-                    row[3] = 'POSITIVE'
-                spamwriter.writerow(row)
-                
+    write_results(directory)
