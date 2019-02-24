@@ -14,6 +14,7 @@
 
 import argparse
 import os
+import csv
 import numpy as np
 from scipy.io import wavfile
 from audio.processor import WavProcessor, format_predictions
@@ -28,13 +29,27 @@ def process_file(wav_file):
 
     with WavProcessor() as proc:
         predictions = proc.get_predictions(sr, data)
-
     print(format_predictions(predictions))
+    return predictions
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
     directory = vars(args)['folder']
-    for filename in os.listdir(directory):
-        if filename.endswith(".wav"): 
-            process_file(os.path.join(directory, filename))
+    with open(os.path.join(directory, 'predictions.csv'), 'w') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=' ',
+                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        spamwriter.writerow(['file_name', 'cry', 'others', 'prediction'])
+        for filename in os.listdir(directory):
+            if filename.endswith(".wav"): 
+                predictions = process_file(os.path.join(directory, filename))
+                row = [filename, 0, 0, 'NEGITIVE']
+                for p in predictions:
+                    if p[0] == 'Cry':
+                        row[1] = p[1]
+                    else:
+                        row[2] = p[1]
+                if row[1] > row[2]:
+                    row[3] = 'POSITIVE'
+                spamwriter.writerow(row)
+                
