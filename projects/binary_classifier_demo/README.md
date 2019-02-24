@@ -12,4 +12,4 @@ Remember to put the sample file in the `data` folder under the root folder, so i
 
 Also Github doesn't like files over 100MB (unless you pay them), so head to [this page](http://s3.amazonaws.com/audioanalysis/models.tar.gz), download, unzip and copy the `vggish_model.ckpt` file to `binary_classifier_demo/models`.
 
-Then `sh run.sh`, everything should be fine.
+Then `bash run.sh`, everything should be fine.

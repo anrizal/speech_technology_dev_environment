@@ -10,6 +10,12 @@
   apt_repository: repo="ppa:deadsnakes/ppa"
   become: true
 
+- name: Install dependency libraries
+  apt:
+    pkg: "libsndfile1"
+    state: present
+  become: true
+
 - name: Install python
   apt:
     pkg: "python{{ python_version }}-dev"

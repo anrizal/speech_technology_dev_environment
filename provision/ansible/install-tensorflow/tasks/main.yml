@@ -4,8 +4,11 @@
     name: [
       pip,
       tensorflow,
-      pandas
-      ]
+      pandas,
+      scipy,
+      resampy,
+      soundfile
+    ]
     executable: pip3
     extra_args: --upgrade
   become: true
