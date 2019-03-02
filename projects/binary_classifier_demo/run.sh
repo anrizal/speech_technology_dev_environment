@@ -11,8 +11,8 @@ python3 audio2tfrecord.py
 cd $DIRECTORY/../../data
 if [ -d "features" ]; then
     rm -r features
-    mkdir features
 fi
+mkdir features
 shopt -s dotglob
 mv sounds/*/*.tfrecord features
 
