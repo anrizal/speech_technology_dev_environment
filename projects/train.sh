@@ -27,6 +27,11 @@ done
 [ -z "$labels_path" ] && labels_path="${audio_path}/class_labels_indices.csv"
 [ "$num_classes" -eq 0 ] && num_classes="$(cat $labels_path | wc -l)" && num_classes=$(($num_classes-1))
 
+if [ ! -f models/vggish_model.ckpt ]; then
+    echo "Missing models/vggish_model.ckpt, try to download from source"
+    curl -o models/vggish_model.ckpt http://s3.amazonaws.com/audioanalysis/models.tar.gz
+fi
+
 echo
 echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 echo Extracting features
