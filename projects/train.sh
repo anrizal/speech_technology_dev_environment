@@ -41,7 +41,7 @@ done
 
 if [ ! -f models/vggish_model.ckpt ]; then
     echo "Missing models/vggish_model.ckpt, try to download from source"
-    curl -o models/vggish_model.ckpt http://s3.amazonaws.com/audioanalysis/models.tar.gz
+    curl -o models/vggish_model.ckpt https://storage.googleapis.com/audioset/vggish_model.ckpt
 fi
 
 echo

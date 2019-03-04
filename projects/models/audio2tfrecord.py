@@ -8,6 +8,7 @@ import numpy as np
 from scipy.io import wavfile
 import six
 import tensorflow as tf
+from absl import app
 from absl import flags
 
 import vggish_input
@@ -109,4 +110,5 @@ def main(argv):
       extract_features(subpath, int(row['index']))
 
 if __name__ == '__main__':
+  app.run(main)
   tf.app.run()
