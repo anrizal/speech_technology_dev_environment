@@ -21,9 +21,12 @@ import sys
 
 FLAGS = flags.FLAGS
 SELF_DIR = os.path.dirname(os.path.realpath(__file__))
+flags.DEFINE_string("source", None, "Path to the audio resources")
+flags.DEFINE_string("labels", None, "Path to the csv file which records the relationship between a label and its index number")
+flags.DEFINE_string("dest", None, "Path to write extracted features")
+flags.mark_flag_as_required('source')
 
 def extract_features(dirname, label):
-
   pproc = vggish_postprocess.Postprocessor(os.path.join(SELF_DIR, "vggish_pca_params.npz"))
 
   for wav_file in glob.glob(dirname + "*.wav"):
@@ -106,9 +109,4 @@ def main(argv):
       extract_features(subpath, int(row['index']))
 
 if __name__ == '__main__':
-  flags.DEFINE_string("source", None, "Path to the audio resources")
-  flags.DEFINE_string("labels", None, "Path to the csv file which records the relationship between a label and its index number")
-  flags.DEFINE_string("dest", None, "Path to write extracted features")
-  flags.mark_flag_as_required('source')
-
   tf.app.run()
