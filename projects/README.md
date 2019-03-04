@@ -5,11 +5,17 @@ Remember to put the sample file in the `data` folder under the root folder, so i
     speech_technology_dev_environment
     |___data
         |___sounds
-            |___cries
-                |___*.wav
-            |___other
-                |___*.wav
-            |___... (Other audio sources)
+            |___training
+                |___hungry
+                    |___*.wav
+                |___tired
+                    |___*.wav
+                |___... (Other audio sources)
+            |___validation
+                |___... (Same as training)
+            |___test
+                |___... (Same as training)
+            |___class_labels_indices.csv
 
 (Bear me for not putting this as a parameter in the shell script..)
 
@@ -17,8 +23,8 @@ Also Github doesn't like files over 100MB (unless you pay them), so head to [thi
 
 ### Training
 
-`bash run.sh`, everything should be fine.
+`bash train.sh`, for help run `bash train.sh -h`
 
 ### Predictions
 
-Run `python3 predictor/parse_folder.py PATH_TO_YOUR_CORPUS_FOLDER`. The result will be in the corpus folder as `predictions.csv`
+Run `sh predict.sh`. for help run `bash predict.sh -h`

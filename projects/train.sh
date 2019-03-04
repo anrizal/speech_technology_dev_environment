@@ -7,10 +7,22 @@ features_path="features"
 trainlog_path="trainlog"
 num_classes=0
 
+print_help () {
+    echo "Usage: bash train.sh [-alnfd]"
+    echo "-a    Path to the audio source file"
+    echo "-l    Path to the csv file which has the mapping for the labels"
+    echo "-n    Number of the labels"
+    echo "-f    Path to write the features files"
+    echo "-d    Path to write the predictions file"
+}
+
 OPTINT=0
 
-while getopts "a:l:n:f:d:" opt; do
+while getopts "ha:l:n:f:d:" opt; do
     case "$opt" in
+    h)  print_help
+        exit
+        ;;
     a)  audio_path=$OPTARG
         ;;
     l)  labels_path=$OPTARG

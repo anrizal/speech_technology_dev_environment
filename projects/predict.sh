@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 
-DIRECTORY="$( cd "$(dirname "$0")" ; pwd -P )"
 audio_path=""
 labels_path=""
 checkpoint_path=""
 result_path="predictions.csv"
 
+print_help () {
+    echo "Usage: sh predict.sh [-alcd]"
+    echo "-a    Path to the audio source file"
+    echo "-l    Path to the csv file which has the mapping for the labels"
+    echo "-c    Path to the checkpoint folder"
+    echo "-d    Path to write the predictions file"
+}
+
 OPTINT=0
 
-while getopts "a:l:c:d:" opt; do
+while getopts "ha:l:c:d:" opt; do
     case "$opt" in
+    h)  print_help
+        exit
+        ;;
     a)  audio_path=$OPTARG
         ;;
     l)  labels_path=$OPTARG
