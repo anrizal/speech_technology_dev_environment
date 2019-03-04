@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
 # Architectural constants.
 NUM_FRAMES = 96  # Frames in input mel-spectrogram patch.
 NUM_BANDS = 64  # Frequency bands in input mel-spectrogram patch.
@@ -43,14 +45,15 @@ LEARNING_RATE = 1e-4  # Learning rate for the Adam optimizer.
 ADAM_EPSILON = 1e-8  # Epsilon for the Adam optimizer.
 
 # Names of ops, tensors, and features.
-VGGISH_MODEL = '../models/vggish_model.ckpt'
-VGGISH_PCA_PARAMS = '../models/vggish_pca_params.npz'
+path = os.path.dirname(os.path.realpath(__file__))
+VGGISH_MODEL = '{}/../../models/vggish_model.ckpt'.format(path)
+VGGISH_PCA_PARAMS = '{}/../../models/vggish_pca_params.npz'.format(path)
 VGGISH_INPUT_TENSOR_NAME = 'vggish/input_features:0'
 VGGISH_OUTPUT_TENSOR_NAME = 'vggish/embedding:0'
 
-YOUTUBE_CHECKPOINT_FILE = '../models/trained_model.ckpt'
+YOUTUBE_CHECKPOINT_FILE = '{}/../../../data/trainlog/model.ckpt-0'.format(path)
 
-CLASS_LABELS_INDICES = '../models/class_labels_indices.csv'
+CLASS_LABELS_INDICES = '{}/../../../data/sounds/class_labels_indices.csv'.format(path)
 
 # Predictions filter
 PREDICTIONS_COUNT_LIMIT = 2

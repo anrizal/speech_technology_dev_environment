@@ -36,10 +36,12 @@ class WavProcessor(object):
     _vggish_sess = None
     _youtube_sess = None
 
-    def __init__(self):
+    def __init__(self, ckpt_file=params.YOUTUBE_CHECKPOINT_FILE, labels_file=params.CLASS_LABELS_INDICES):
         pca_params = np.load(params.VGGISH_PCA_PARAMS)
         self._pca_matrix = pca_params[params.PCA_EIGEN_VECTORS_NAME]
         self._pca_means = pca_params[params.PCA_MEANS_NAME].reshape(-1, 1)
+        self._ckpt_file = ckpt_file
+        self._labels_file = labels_file
 
         self._init_vggish()
         self._init_youtube()
@@ -71,12 +73,12 @@ class WavProcessor(object):
         graph = tf.Graph()
         with graph.as_default():
             sess = tf.Session()
-            youtube8m.model.load_model(sess, params.YOUTUBE_CHECKPOINT_FILE)
+            youtube8m.model.load_model(sess, self._ckpt_file)
 
         self._youtube_sess = sess
 
     def _init_class_map(self):
-        with open(params.CLASS_LABELS_INDICES) as f:
+        with open(self._labels_file) as f:
             next(f)  # skip header
             reader = csv.reader(f)
             for row in reader:
