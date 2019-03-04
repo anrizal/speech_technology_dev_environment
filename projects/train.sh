@@ -7,20 +7,22 @@ features_path="features"
 trainlog_path="trainlog"
 num_classes=0
 num_epochs=500
+skip_feature_extraction=0
 
 print_help () {
-    echo "Usage: bash train.sh [-alnfd]"
+    echo "Usage: bash train.sh [-alnfdet]"
     echo "-a    Path to the audio source file"
     echo "-l    Path to the csv file which has the mapping for the labels"
     echo "-n    Number of the labels"
     echo "-f    Path to write the features files"
     echo "-d    Path to write the predictions file"
     echo "-e    Number of epochs"
+    echo "-t    Skip feature extraction"
 }
 
 OPTINT=0
 
-while getopts "ha:l:n:f:d:e:" opt; do
+while getopts "ha:l:n:f:d:e:t" opt; do
     case "$opt" in
     h)  print_help
         exit
@@ -37,6 +39,8 @@ while getopts "ha:l:n:f:d:e:" opt; do
         ;;
     e)  num_epochs=$OPTARG
         ;;
+    t)  skip_feature_extraction=1
+        ;;
     esac
 done
 
@@ -48,16 +52,19 @@ if [ ! -f models/vggish_model.ckpt ]; then
     curl -o models/vggish_model.ckpt https://storage.googleapis.com/audioset/vggish_model.ckpt
 fi
 
-echo
-echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-echo Extracting features
-echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-echo
+if [ "$skip_feature_extraction" -eq "0" ]
+then
+    echo
+    echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    echo Extracting features
+    echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    echo
 
-python3 models/audio2tfrecord.py --source $audio_path --labels $labels_path --dest $features_path
-ret=$?
-if [ $ret -ne 0 ]; then
-    exit 1
+    python3 models/audio2tfrecord.py --source $audio_path --labels $labels_path --dest $features_path
+    ret=$?
+    if [ $ret -ne 0 ]; then
+        exit 1
+    fi
 fi
 
 echo
