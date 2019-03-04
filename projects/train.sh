@@ -6,6 +6,7 @@ labels_path=""
 features_path="features"
 trainlog_path="trainlog"
 num_classes=0
+num_epochs=500
 
 print_help () {
     echo "Usage: bash train.sh [-alnfd]"
@@ -14,11 +15,12 @@ print_help () {
     echo "-n    Number of the labels"
     echo "-f    Path to write the features files"
     echo "-d    Path to write the predictions file"
+    echo "-e    Number of epochs"
 }
 
 OPTINT=0
 
-while getopts "ha:l:n:f:d:" opt; do
+while getopts "ha:l:n:f:d:e:" opt; do
     case "$opt" in
     h)  print_help
         exit
@@ -32,6 +34,8 @@ while getopts "ha:l:n:f:d:" opt; do
     f)  features_path=$OPTARG
         ;;
     d)  trainlog_path=$OPTARG
+        ;;
+    e)  num_epochs=$OPTARG
         ;;
     esac
 done
@@ -64,7 +68,7 @@ echo
 
 shopt -s dotglob
 
-python3 trainer/train.py --train_data_pattern="$features_path/*.tfrecord" --num_epochs=20 --learning_rate_decay_examples=40000 --feature_names=audio_embedding --feature_sizes=128 --frame_features --batch_size=64 --num_classes=$num_classes --train_dir=$trainlog_path --base_learning_rate=0.001 --model=LstmModel
+python3 trainer/train.py --train_data_pattern="$features_path/*.tfrecord" --num_epochs=$num_epochs --learning_rate_decay_examples=40000 --feature_names=audio_embedding --feature_sizes=128 --frame_features --batch_size=64 --num_classes=$num_classes --train_dir=$trainlog_path --base_learning_rate=0.001 --model=LstmModel
 
 echo
 echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
