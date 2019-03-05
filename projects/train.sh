@@ -6,7 +6,7 @@ labels_path=""
 features_path="features"
 trainlog_path="trainlog"
 num_classes=0
-num_epochs=500
+num_epochs=300
 skip_feature_extraction=0
 
 print_help () {
