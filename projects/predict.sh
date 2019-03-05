@@ -39,7 +39,7 @@ echo Predicting
 echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 echo
 
-ckpt_prefix=$(grep -o -m 1 'model\.ckpt-\d*' ${checkpoint_path}/checkpoint)
+ckpt_prefix=$(grep -o -m 1 'model\.ckpt-[0-9]*' ${checkpoint_path}/checkpoint)
 ckpt_model_path="${checkpoint_path}/${ckpt_prefix}"
 
 python3 predictor/predict.py --source $audio_path --labels $labels_path --ckpt $ckpt_model_path --dest $result_path

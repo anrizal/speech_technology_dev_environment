@@ -42,6 +42,7 @@ class PredictionWriter(object):
     def _format_csv_row(self, filename, predictions):
         result = {p[0]: p[1] for p in predictions}
         result['file_name'] = filename
-        max_label = max(predictions, key=operator.itemgetter(1))[0]
-        result['final_prediction'] = max_label
+        if predictions:
+            max_label = max(predictions, key=operator.itemgetter(1))[0]
+            result['final_prediction'] = max_label
         return result
